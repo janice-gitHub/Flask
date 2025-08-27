@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from datetime import datetime
-from pm25 import get_open_data
+from pm25 import get_data_from_mysql
 
 
 books = {
@@ -27,7 +27,7 @@ app = Flask(__name__)
 @app.route("/pm25")
 def get_pm25():
     
-    values=get_open_data()
+    values=get_data_from_mysql()
     print(values)
     columns=["站點名稱","縣市","pm2.5","更新時間","單位"]
     return render_template("pm25.html",columns=columns,values=values)

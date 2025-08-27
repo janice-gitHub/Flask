@@ -25,15 +25,17 @@ def open_db():
 
     try:
         conn=pymysql.connect(
-        host="127.0.0.1",
-        user="root",
-        password="",
-        port=3307,
-        database="demo"
+        host="mysql-13a4635d-janicelu0623-5b77.j.aivencloud.com",
+        user="avnadmin",
+        password="AVNS_NvjGxji6ejVexI2vR2h",
+        port=22040,
+        database="defaultdb"
         )
 
         #print(conn)  
         cursor=conn.cursor()  
+        cursor.execute(table_str)
+        conn.commit()
         print("資料庫開啟成功!")
     except Exception as e:
         print(e)
@@ -64,6 +66,24 @@ def write_to_sql():
     except Exception as e:
         print(e)
 
+def get_data_from_mysql():
+    try:
+        open_db()
+        sqlstr = (
+            "select site,county,pm25,datacreationdate,itemunit "
+            "from pm25 "
+            "where datacreationdate=(select max(datacreationdate) from pm25);"
+        )
+        cursor.execute(sqlstr)
+        datas = cursor.fetchall()
+        return datas
+    except Exception as e:
+        print(e)
+    finally:
+        close_db()
+    return None
+
+# print(get_data_from_mysql())
 
 # open_db()
 # write_to_sql()
