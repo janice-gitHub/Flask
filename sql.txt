@@ -1,0 +1,158 @@
+# 建立資料庫
+
+create database demo;
+
+# 建立資料表
+
+CREATE TABLE `demo`.`person` (`id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(10) NOT NULL , `password` VARCHAR(8) NOT NULL , `age` DOUBLE NULL , `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+# 使用資料庫
+
+use demo;
+
+# 插入語法1
+insert into person (`username`,`password`) VALUES ("jerry chenying","12345678");
+
+# 插入語法2
+insert into person values(5,"王小明","8888",36.6,"2024/2/15");
+
+
+# shell登入
+- mysql -u root -p
+
+# 離開
+- exit
+
+# use demo;
+
+create table if not exists emp(
+ id int primary key auto_increment,
+ username varchar(10) not null,
+ email varchar(100) not null unique, 
+ sex char(1) default 'M',
+ entry_date datetime default current_timestamp(),
+ salary decimal(8,2) default 0
+);
+
+# 檢視資料表
+- show tables;
+
+# 檢視欄位跟屬性設定
+- desc emp;
+	
+# 建表語法
+- show create table emp;
+
+# 插入語法
+- insert into emp(`username`,`email`) VALUES ("jerry chen","17app001@gmail.com");
+- insert into emp(`username`,`email`,`sex`,`salary`) VALUES ("mary cho","17app002@gmail.com",'F',2000.9977);
+
+# 檢視語法
+- select * from emp;
+
+# 更新語法
+- update emp set salary=2500 where id=1;
+- update emp set salary=2800,sex='F' where email="17app001@gmail.com";
+
+# 刪除語法
+- delete from emp;
+- delete from emp where salary>2500;
+- delete from emp where id>3 and id<=100;
+- delete from emp where sex is null;
+
+
+# 檢視語法
+- select id,name,chinese+english+math as　總分　from student;
+- select id,name,chinese+english+math as　總分　from student　order by id;
+- select id,name,chinese+english+math as `總分` from student order by `總分` desc limit 3;
+
+# 更新avg分數
+- update student set avg=round((chinese+english+math)/3,2);
+
+# 新增欄位
+- alter table student add column pass bool default false;
+
+# 80分以上將pass設定為1
+- update student set pass=1 where avg>=80;
+
+# 找出pass=1的同學
+- select * from student where pass=1;
+
+- select * from student where pass=1 ORDER by avg desc;
+
+
+ CREATE TABLE `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderdate` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `order_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+# 進階select語法運用
+
+
+- count(計數數量),sum(總和),avg(平均價格)
+
+select count(id) as `商品數量`,
+sum(quantity*price) as TOTAL,
+sum(quantity) as `總庫存量`,
+avg(price) as AVG
+from product;
+
+- 查詢訂單日期跟總金額（使用group by)
+select orderdate,sum(amount) from `order` group by orderdate;
+
+
+- 查詢訂單對應的user跟product
+select * from 
+`order` 
+join user
+on `order`.user_id=user.id
+join product 
+on `order`.product_id=product.id;
+
+
+- 對應欄位輸出
+select `order`.`orderdate`,user.name,
+product.name,`order`.`quantity`,
+`order`.`amount`,user.address 
+from `order` 
+join user on 
+`order`.user_id=user.id 
+join product on `order`.product_id=product.id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
