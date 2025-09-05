@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
         body {
@@ -18,7 +17,7 @@
 
         .image {
             border: 1px solid black;
-            padding: 12px;
+            padding: 12px 6px;
             background-color: white;
             border-radius: 6px;
         }
@@ -26,7 +25,7 @@
         .title {
             background-color: blueviolet;
             color: white;
-
+            padding: 3px 0px;
         }
     </style>
 </head>
@@ -36,12 +35,10 @@
     {% for id in books %}
     <p class="title">書名:{{books[id]["name"]}}</p>
     <p>價格:<span class="price">${{books[id]["price"]}}</span></p>
-    <p>
-        <img src="{{books[id]['image_url']}}" alt="">
+    <p><img class="image" src="{{books[id]['image_url']}}" alt="">
     </p>
     <a href="https://www.books.com.tw">購買連結</a>
     <hr>
-
     {% endfor %}
 </body>
 
